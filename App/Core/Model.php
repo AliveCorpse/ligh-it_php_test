@@ -65,6 +65,14 @@ abstract class Model
         }
     }
 
+    public function delete()
+    {
+        $sql = 'DELETE FROM ' . static::TABLE
+            . ' WHERE id=:id';
+        $db = Db::instance();
+        $db->execute($sql, [':id' => $this->id]);
+    }
+
     public static function findAll()
     {
         $db = Db::instance();
