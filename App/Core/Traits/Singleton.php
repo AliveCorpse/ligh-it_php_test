@@ -9,6 +9,9 @@ trait Singletone
     protected function __construct()
     {}
 
+    protected function __clone()
+    {}
+
     public static function instance()
     {
         if (null === static::$instance) {
