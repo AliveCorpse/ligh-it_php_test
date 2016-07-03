@@ -17,5 +17,16 @@ class Db
         }
     }
 
-    
+    public function query($sql, $params=[], $class='')
+    {
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute($params);
+
+        if(empty($class)) {
+            return $stmt->fetchAll();
+        } else {
+            return $stmt->fetchAll(PDO::FETCH_CLASS, $class);
+        }
+        return [];
+    }
 }
