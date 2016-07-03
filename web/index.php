@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Test for Light-IT</title>
-</head>
-<body>
+<?php
+session_start();
 
-</body>
-</html>
+spl_autoload_register(function ($class) {
+    require __DIR__ . '/../' . str_replace('\\', '/', $class) . '.php';
+});
+
+$view = new App\Core\View();
+$view->render('index.tpl.php');
+// $controller = new App\Controllers\Index();
+// $action = (filter_input(INPUT_GET, 'action')) ?: 'index';
+// $controller->action($action);
