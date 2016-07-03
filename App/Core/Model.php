@@ -51,6 +51,20 @@ abstract class Model
         $db->execute($sql, $values);
     }
 
+    protected function isNew()
+    {
+        return empty($this->id);
+    }
+
+    public function save()
+    {
+        if($this->isNew()) {
+            $this->insert();
+        } else {
+            $this->update();
+        }
+    }
+
     public static function findAll()
     {
         $db = Db::instance();
