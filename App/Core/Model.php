@@ -30,6 +30,27 @@ abstract class Model
         $this->id = $db->insertedId();
     }
 
+    protected function update()
+    {
+        $values = [];
+        $setString = [];
+        foreach ($this as $key => $value) {
+            if('id' == $key) {
+                continue;
+            }
+            $values[':' . $key] = $value;
+            $setString[] = $key . '=:' . $key;
+        }
+
+        $sql = 'UPDATE ' . static::TABLE
+            . ' SET ' . implode(',', $setString)
+            . ' WHERE id=:id';
+        $values[':id'] = $this->id;
+
+        $db = Db::instance();
+        $db->execute($sql, $values);
+    }
+
     public static function findAll()
     {
         $db = Db::instance();
