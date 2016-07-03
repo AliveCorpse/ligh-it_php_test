@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Index Template</title>
+    <title><?= $title ?></title>
 </head>
 <body>
-    
+    Template
+    <?= $test ?>
 </body>
 </html>
