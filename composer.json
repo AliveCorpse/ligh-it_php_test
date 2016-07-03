@@ -1,0 +1,6 @@
+{
+    "name": "vladimir.kirejko/light-it",
+    "require": {
+        "twbs/bootstrap": "^3.3"
+    }
+}
