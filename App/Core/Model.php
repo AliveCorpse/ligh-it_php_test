@@ -8,6 +8,28 @@ abstract class Model
 
     public $id;
 
+    protected function insert()
+    {
+        $columns = [];
+        $values = [];
+        foreach ($this as $key => $value) {
+            if('id' == $key) {
+                continue;
+            }
+            $columns[] = $key;
+            $values[':' . $key] = $value;
+        }
+
+        $sql = 'INSERT INTO ' . static::TABLE
+            . ' (' . implode(',', $columns) . ')'
+            . ' VALUES (' . implode(',', array_keys($values)) . ')';
+
+        $db = Db::instance();
+        $db->execute($sql, $values);
+
+        $this->id = $db->insertedId();
+    }
+
     public static function findAll()
     {
         $db = Db::instance();
