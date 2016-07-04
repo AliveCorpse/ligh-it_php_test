@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use App\Core\Db;
 
 class User extends Model
 {
@@ -64,17 +65,21 @@ class User extends Model
 
     public function isRegistered()
     {
-        return self::findBySocialId($this->social_id, $this->social_name);
+        $db     = Db::instance();
+        $result = $db->query(
+            'SELECT * FROM ' . static::TABLE
+            . ' WHERE social_id=:social_id
+                AND social_name=:social_name',
+            [
+                ':social_id'   => $this->social_id,
+                ':social_name' => $this->social_name,
+            ],
+            static::class
+        );
+
+        if (!empty($result)) {
+            return true;
+        }
+        return false;
     }
-
-/*    public function logout()
-    {
-        $this->accessToken = null;
-    }
-
-    public function getUserToken()
-    {
-        return $this->accessToken;
-    }*/
-
 }

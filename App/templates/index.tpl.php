@@ -6,8 +6,8 @@
 </head>
 <body>
 <script src="../vendor/components/jquery/jquery.min.js"></script>
-<script src="assets/js/fb.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="./assets/js/fb.js"></script>
+<script src="./assets/js/app.js"></script>
 <script>
 
 </script>

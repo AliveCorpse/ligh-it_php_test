@@ -25,17 +25,18 @@ class IndexController extends Controller
     public function actionIndex()
     {
 
-        // $user = new User();
+        /*// $user = new User();
         // $users = User::findAll();
-        $user = User::findById(3);
-        var_dump($user);
+        $user = User::findById(1);
+
+        var_dump($user->isRegistered());
         die;
         $user->name = "testasdfasdf name";
         $user->social_id = "some sasdfasdfocial_id";
         $user->social_name = "socialasdfasdf name";
 
         $user->save();
-        die;
+        die;*/
         if (User::isGuest()) {
             $this->view->display('index.tpl.php');
         } else {
@@ -71,8 +72,10 @@ class IndexController extends Controller
 
         if(!User::isGuest()) {
             $user->getUserData($this->fb);
-            var_dump($user->findById(3));die;
-            $user->save();
+
+            if(!$user->isRegistered()) {
+                $user->save();
+            }
         }
         // header('Location: index.php');
         exit;

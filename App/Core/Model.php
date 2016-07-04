@@ -98,7 +98,7 @@ abstract class Model
         return false;
     }
 
-    public static function findBySocialId($social_id, $social_name)
+   /* public static function findBySocialId($social_id, $social_name)
     {
         $db     = Db::instance();
         $result = $db->query(
@@ -116,5 +116,5 @@ abstract class Model
             return $result[0];
         }
         return false;
-    }
+    }*/
 }
