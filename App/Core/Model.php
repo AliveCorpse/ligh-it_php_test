@@ -11,18 +11,18 @@ abstract class Model
     protected function insert()
     {
         $columns = [];
-        $values = [];
+        $values  = [];
         foreach ($this as $key => $value) {
-            if('id' == $key) {
+            if ('id' == $key) {
                 continue;
             }
-            $columns[] = $key;
-            $values[':' . $key] = $value;
+            $columns[]       = $key;
+            $values[":$key"] = $value;
         }
 
         $sql = 'INSERT INTO ' . static::TABLE
-            . ' (' . implode(',', $columns) . ')'
-            . ' VALUES (' . implode(',', array_keys($values)) . ')';
+        . ' (' . implode(',', $columns) . ')'
+        . ' VALUES (' . implode(',', array_keys($values)) . ')';
 
         $db = Db::instance();
         $db->execute($sql, $values);
@@ -32,18 +32,18 @@ abstract class Model
 
     protected function update()
     {
-        $values = [];
+        $values    = [];
         $setString = [];
         foreach ($this as $key => $value) {
-            if('id' == $key) {
+            if ('id' == $key) {
                 continue;
             }
             $values[':' . $key] = $value;
-            $setString[] = $key . '=:' . $key;
+            $setString[]        = $key . '=:' . $key;
         }
 
         $sql = 'UPDATE ' . static::TABLE
-            . ' SET ' . implode(',', $setString)
+        . ' SET ' . implode(',', $setString)
             . ' WHERE id=:id';
         $values[':id'] = $this->id;
 
@@ -58,7 +58,7 @@ abstract class Model
 
     public function save()
     {
-        if($this->isNew()) {
+        if ($this->isNew()) {
             $this->insert();
         } else {
             $this->update();
@@ -83,17 +83,36 @@ abstract class Model
         );
     }
 
-    public static function findById(int $id)
+    public static function findById($id)
     {
         $db = Db::instance();
         $result = $db->query(
             'SELECT * FROM ' . static::TABLE
             . ' WHERE id=:id',
-            ['id:' => $id],
-            static::TABLE
+            [':id' => $id],
+            static::class
+        );
+        if (!empty($result)) {
+            return $result[0];
+        }
+        return false;
+    }
+
+    public static function findBySocialId($social_id, $social_name)
+    {
+        $db     = Db::instance();
+        $result = $db->query(
+            'SELECT * FROM ' . static::TABLE
+            . ' WHERE social_id=:social_id
+                AND social_name=:social_name',
+            [
+                ':social_id'   => $social_id,
+                ':social_name' => $social_name,
+            ],
+            static::class
         );
 
-        if(!empty($result)) {
+        if (!empty($result)) {
             return $result[0];
         }
         return false;

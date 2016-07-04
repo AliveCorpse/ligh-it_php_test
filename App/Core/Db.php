@@ -4,7 +4,7 @@ namespace App\Core;
 
 class Db
 {
-    use Singletone;
+    use Traits\Singleton;
 
     private $dbh;
 
@@ -25,14 +25,14 @@ class Db
         if(empty($class)) {
             return $stmt->fetchAll();
         } else {
-            return $stmt->fetchAll(PDO::FETCH_CLASS, $class);
+            return $stmt->fetchAll(\PDO::FETCH_CLASS, $class);
         }
         return [];
     }
 
     public function execute($sql, $params=[])
     {
-        $stmt->prepare($sql);
+        $stmt = $this->dbh->prepare($sql);
         return $stmt->execute($params);
     }
 

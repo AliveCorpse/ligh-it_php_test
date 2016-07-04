@@ -2,7 +2,7 @@
 
 namespace App\Core\Traits;
 
-trait Singletone
+trait Singleton
 {
     protected static $instance;
 
