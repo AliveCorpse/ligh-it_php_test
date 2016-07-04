@@ -21,10 +21,8 @@
         });
     }
 </script>
-<div id="fb-root"></div>
-
 <div class="header">
-    <p><a href="#" onClick="logInWithFacebook()">Log In with the JavaScript SDK</a></p>
+    <div id="fb-root"></div>
 
     <div 
         class="fb-login-button"

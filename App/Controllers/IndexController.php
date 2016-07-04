@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Core\View;
+use App\Models\User;
 
 class IndexController extends Controller
 {
@@ -23,12 +24,13 @@ class IndexController extends Controller
 
     public function actionIndex()
     {
-        $helper               = $this->fb->getRedirectLoginHelper();
-        $permissions          = ['email']; // optional
-        $loginUrl             = $helper->getLoginUrl('http://lightit.local/web/index.php?action=logincallback', $permissions);
-        $this->view->loginUrl = $loginUrl;
-        // $this->view->content = $this->view->render('fb_login.tpl');
-        $this->view->display('index.tpl.php');
+        if(User::isGuest()) {
+            $this->view->display('index.tpl.php');
+        } else {
+            $this->view->content = $this->view->render('_form_message.tpl');
+            $this->view->display('index.tpl.php');
+        }
+        
     }
 
     public function actionLogin()
