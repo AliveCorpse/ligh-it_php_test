@@ -14,8 +14,6 @@ class User extends Model
     public $social_id;
     public $social_name = 'facebook';
 
-    // private $accessToken = null;
-
     public static function isGuest()
     {
         return !isset($_COOKIE['fbsr_286994848357270']);
@@ -60,7 +58,6 @@ class User extends Model
         }
 
         $_SESSION['fb_access_token'] = (string) $accessToken;
-        // $this->accessToken           = (string) $accessToken;
     }
 
     public function isRegistered()

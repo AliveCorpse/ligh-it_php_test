@@ -98,23 +98,4 @@ abstract class Model
         return false;
     }
 
-   /* public static function findBySocialId($social_id, $social_name)
-    {
-        $db     = Db::instance();
-        $result = $db->query(
-            'SELECT * FROM ' . static::TABLE
-            . ' WHERE social_id=:social_id
-                AND social_name=:social_name',
-            [
-                ':social_id'   => $social_id,
-                ':social_name' => $social_name,
-            ],
-            static::class
-        );
-
-        if (!empty($result)) {
-            return $result[0];
-        }
-        return false;
-    }*/
 }

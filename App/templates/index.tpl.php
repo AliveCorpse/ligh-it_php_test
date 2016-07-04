@@ -8,27 +8,33 @@
 <script src="../vendor/components/jquery/jquery.min.js"></script>
 <script src="./assets/js/fb.js"></script>
 <script src="./assets/js/app.js"></script>
-<script>
 
-</script>
-<div class="header">
-    <div id="fb-root"></div>
+<div class="container">
 
-    <div 
-        class="fb-login-button"
-        data-max-rows="1"
-        data-size="large" 
-        data-show-faces="false" 
-        data-auto-logout-link="true"
-        onlogin="onLogin()"
-    ></div>
-</div>
+    <div class="facebook">
+        <div id="fb-root"></div>
 
-<div class="content">
-    <?=$content;?>
-</div>
+        <div
+            class="fb-login-button"
+            data-max-rows="1"
+            data-size="large"
+            data-show-faces="false"
+            data-auto-logout-link="true"
+            onlogin="onLogin()"
+        ></div>
+    </div>
 
-<div class="footer">
+    <div class="header">
+        <?=$header;?>
+    </div>
+
+    <div class="content">
+        <?=$content;?>
+    </div>
+
+    <div class="footer">
+        <?=$footer;?>
+    </div>
 </div>
 </body>
 </html>
