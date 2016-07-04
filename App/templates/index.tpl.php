@@ -7,19 +7,9 @@
 <body>
 <script src="../vendor/components/jquery/jquery.min.js"></script>
 <script src="assets/js/fb.js"></script>
+<script src="assets/js/app.js"></script>
 <script>
-    function onLogin(){
-         $.ajax({
-            method: "POST",
-            async: true,
-            url: "index.php?action=login",
-            data: {
-            },
-            success: function(result) {
-               $(".content").html(result);
-            }
-        });
-    }
+
 </script>
 <div class="header">
     <div id="fb-root"></div>

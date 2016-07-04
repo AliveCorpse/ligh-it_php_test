@@ -1,3 +1,14 @@
+function onLogin() {
+    $.ajax({
+        method: "POST",
+        async: true,
+        url: "index.php?action=login",
+        data: {},
+        success: function(result) {
+            $(".content").html(result);
+        }
+    });
+}
 window.fbAsyncInit = function() {
     FB.init({
         appId: '286994848357270',
