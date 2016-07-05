@@ -73,7 +73,8 @@ class IndexController extends Controller
 
             $this->view->display('index.tpl.php');
         } else {
-            $this->view->header  = $this->view->render('_form_message.tpl');
+            $this->view->header = '<h1>Hello, '.$this->getCurrentUser()->name.'!</h1>';
+            $this->view->header  .= $this->view->render('_form_message.tpl');
 
             $this->view->messages = Message::findAll();
             $this->view->users = User::findAll();
