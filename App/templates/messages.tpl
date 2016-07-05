@@ -8,9 +8,9 @@
 
             <div class="message-head">
                 <span>Posted by <strong><?=$user->name?></strong> at <em><?=date('d-m-Y H:i:s',$message->created_at)?></em>
-                    <?php if($message->created_at !== $message->updated_at): ?>
-                       <br><span>Updated at <?=date('d-m-Y H:i:s',$message->updated_at)?></span>
-                    <?php endif; ?>
+                <?php if($message->created_at !== $message->updated_at): ?>
+                   <span><em>(updated at <?=date('d-m-Y H:i:s',$message->updated_at)?>)</em></span>
+                <?php endif; ?>
                 </span>
                 <?php if($user->id == $current_user->id): ?>
                     <button class="editmessage">Edit</button>
