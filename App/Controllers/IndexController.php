@@ -47,8 +47,8 @@ class IndexController extends Controller
     public function actionAddmessage()
     {
         if (empty($_POST['id'])) {
-            $message             = new Message();
-            $message->id         = null;
+            $message     = new Message();
+            $message->id = null;
 
             $user = new User();
             $user->getUserData($this->fb);
@@ -63,6 +63,20 @@ class IndexController extends Controller
 
         $message->updated_at = time();
         $message->save();
+
+        $this->view->current_user = $this->getCurrentUser();
+        $this->view->messages     = Message::findAll();
+        $this->view->users        = User::findAll();
+        $this->view->display('messages.tpl');
+    }
+
+    public function actionDeletemessage()
+    {
+        if (!empty($_POST['id'])) {
+            $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $message = Message::findById($id);
+            $message->delete();
+        }
         
         $this->view->current_user = $this->getCurrentUser();
         $this->view->messages     = Message::findAll();
@@ -88,7 +102,7 @@ class IndexController extends Controller
             $this->view->users    = User::findAll();
             $this->view->content  = $this->view->render('messages.tpl');
 
-            $this->view->footer = $this->getCurrentUser();
+            $this->view->footer = '';
 
             $this->view->display('index.tpl.php');
         }

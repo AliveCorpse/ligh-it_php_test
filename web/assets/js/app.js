@@ -22,20 +22,22 @@ $(document).ready(function() {
         var parent_div = $(this).closest('div.message');
         parent_div.children('div.message-body').html('<textarea>' + parent_div.find('div.message-body>p').text() + '</textarea>');
         parent_div.find('div.message-body>textarea').focus();
-        parent_div.children('button').replaceWith('<button class="savemessage">Save</button>');
+        parent_div.find('button.editmessage').replaceWith('<button class="savemessage">Save</button><button class="deletemessage">Delete</button>');
     });
 
     // Нажатие Enter или уход фокуса сохроняет измениеия в имени узла
     $("div.content").on("keypress focusout", "textarea", function(event) {
+        var message_text = $(this).val();
+
         if (event.which == 13 || event.type == 'focusout') {
-            if('' == $(this).text()){
-                $(this).parent('div').parent('li').remove();
+            if('' == message_text){
+                alert('Текст сообщение не может быть пустым');
             }else{
                 var parent_div = $(this).closest('div.message');
 
                 var message_id = parent_div.attr('data-messageid');
                 var user_id = parent_div.attr('data-userid');
-                var message_text = $(this).val();
+                
                 $(this).replaceWith('<p>' + message_text + '</p>');
 
                 $.post('index.php?action=addmessage', {
@@ -47,6 +49,23 @@ $(document).ready(function() {
                 );
             }
         }
+    });
+
+    $('div.content').delegate('button.deletemessage', 'click', function(){
+        var parent_div = $(this).closest('div.message');
+        var message_id = parent_div.attr('data-messageid');
+        
+        var conf = confirm('Вы уверены, что хотите удалить это сообщение?');
+        if(conf){    
+            parent_div.remove();
+            $.post('index.php?action=deletemessage', {
+                id: message_id
+                },
+                function(result){
+                     $('div.content').html(result);
+                }
+            );
+        }   
     });
 
 });
