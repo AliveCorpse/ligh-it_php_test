@@ -64,10 +64,7 @@ class IndexController extends Controller
         $message->updated_at = time();
         $message->save();
 
-        $this->view->current_user = $this->getCurrentUser();
-        $this->view->messages     = Message::findAll();
-        $this->view->users        = User::findAll();
-        $this->view->display('messages.tpl');
+       $this->displayMessages();
     }
 
     public function actionDeletemessage()
@@ -77,11 +74,8 @@ class IndexController extends Controller
             $message = Message::findById($id);
             $message->delete();
         }
-        
-        $this->view->current_user = $this->getCurrentUser();
-        $this->view->messages     = Message::findAll();
-        $this->view->users        = User::findAll();
-        $this->view->display('messages.tpl');
+
+       $this->displayMessages();
     }
 
     protected function sendHtml()
@@ -115,5 +109,13 @@ class IndexController extends Controller
             $user->getUserData($this->fb);
             return User::getUserBySocial($user);
         }
+    }
+
+    protected function displayMessages()
+    {
+        $this->view->current_user = $this->getCurrentUser();
+        $this->view->messages     = Message::findAll();
+        $this->view->users        = User::findAll();
+        $this->view->display('messages.tpl');
     }
 }

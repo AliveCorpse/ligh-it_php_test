@@ -28,13 +28,13 @@ $(document).ready(function() {
     // Нажатие Enter или уход фокуса сохроняет измениеия в имени узла
     $("div.content").on("keypress focusout", "textarea", function(event) {
         var message_text = $(this).val();
+        var parent_div = $(this).closest('div.message');
 
         if (event.which == 13 || event.type == 'focusout') {
             if('' == message_text){
                 alert('Текст сообщение не может быть пустым');
             }else{
-                var parent_div = $(this).closest('div.message');
-
+                
                 var message_id = parent_div.attr('data-messageid');
                 var user_id = parent_div.attr('data-userid');
                 
