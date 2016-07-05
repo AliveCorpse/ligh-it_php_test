@@ -26,7 +26,7 @@
             <div class="message-footer">
                 <h3>Add comment</h3>
                 <?php if(isset($current_user->id)): ?>
-                    <button class="addcomment">Add comment</button>
+                <button class="addcomment">Add comment</button>
                 <?php endif; ?>
                 <ul>
                     <li>comment 1</li>

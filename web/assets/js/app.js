@@ -20,13 +20,13 @@ $(document).ready(function() {
     // открывает для редактирвоания сообщение
     $('div.content').delegate('button.editmessage', 'click', function(){
         var parent_div = $(this).closest('div.message');
-        parent_div.children('div.message-body').html('<textarea>' + parent_div.find('div.message-body>p').text() + '</textarea>');
-        parent_div.find('div.message-body>textarea').focus();
+        parent_div.children('div.message-body').html('<textarea class="editmessage">' + parent_div.find('div.message-body>p').text() + '</textarea>');
+        parent_div.find('div.message-body>textarea.editmessage').focus();
         parent_div.find('button.editmessage').replaceWith('<button class="savemessage">Save</button><button class="deletemessage">Delete</button>');
     });
 
-    // Нажатие Enter или уход фокуса сохроняет измениеия в имени узла
-    $("div.content").on("keypress focusout", "textarea", function(event) {
+    // Нажатие Enter или уход фокуса сохроняет измениеия 
+    $("div.content").on("keypress focusout", "textarea.editmessage", function(event) {
         var message_text = $(this).val();
         var parent_div = $(this).closest('div.message');
 
@@ -70,7 +70,18 @@ $(document).ready(function() {
     // Comments
     
     // Add comment
-    $('div.comtent').delegate('button.addcomment', 'click', function(){
+    $('div.content').delegate('button.addcomment', 'click', function(){
+        var parent_div = $(this).closest('div.message-footer');
+
+        var form_comment = '<form action="index.php" method="post" class="form-comment">';
+        form_comment += '<textarea class="postcomment"></textarea>';
+        form_comment += '<input type="submit" value="Post Comment">';
+        form_comment += '<button class="cancelcomment">Cancel</button>';
+        form_comment += '</form>'
         
+        $(this).replaceWith(form_comment);
+        parent_div.find('textarea.postcomment').focus();
     });
+
+    $()
 });
