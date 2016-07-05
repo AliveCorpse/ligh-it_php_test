@@ -13,6 +13,7 @@ class Message extends Model
     public $text;
     public $user_id;
     public $created_at;
+    public $updated_at;
 
     public static function findAll()
     {

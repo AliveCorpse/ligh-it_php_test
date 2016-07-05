@@ -33,7 +33,7 @@
     </div>
 
     <div class="footer">
-        <?php var_dump($footer);?>
+        <?=$footer;?>
     </div>
 </div>
 </body>

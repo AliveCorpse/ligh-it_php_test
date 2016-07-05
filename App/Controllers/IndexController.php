@@ -46,21 +46,27 @@ class IndexController extends Controller
 
     public function actionAddmessage()
     {
-        $message     = new Message();
-        $message->id = (!empty($_POST['id']))
-        ? filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT)
-        : null;
+        if (empty($_POST['id'])) {
+            $message             = new Message();
+            $message->id         = null;
+
+            $user = new User();
+            $user->getUserData($this->fb);
+            $message->user_id = User::getUserBySocial($user)->id;
+
+            $message->created_at = time();
+        } else {
+            $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $message = Message::findById($id);
+        }
         $message->text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_STRING);
 
-        $user = new User();
-        $user->getUserData($this->fb);
-        $message->user_id = User::getUserBySocial($user)->id;
-        
-        $message->created_at = time();
+        $message->updated_at = time();
         $message->save();
-
-        $this->view->messages = Message::findAll();
-        $this->view->users = User::findAll();
+        
+        $this->view->current_user = $this->getCurrentUser();
+        $this->view->messages     = Message::findAll();
+        $this->view->users        = User::findAll();
         $this->view->display('messages.tpl');
     }
 
@@ -73,14 +79,16 @@ class IndexController extends Controller
 
             $this->view->display('index.tpl.php');
         } else {
-            $this->view->header = '<h1>Hello, '.$this->getCurrentUser()->name.'!</h1>';
-            $this->view->header  .= $this->view->render('_form_message.tpl');
+            $this->view->current_user = $this->getCurrentUser();
+
+            $this->view->header = '<h1>Hello, ' . $this->view->current_user->name . '!</h1>';
+            $this->view->header .= $this->view->render('_form_message.tpl');
 
             $this->view->messages = Message::findAll();
-            $this->view->users = User::findAll();
-            $this->view->content = $this->view->render('messages.tpl');
+            $this->view->users    = User::findAll();
+            $this->view->content  = $this->view->render('messages.tpl');
 
-            $this->view->footer  = $this->getCurrentUser();
+            $this->view->footer = $this->getCurrentUser();
 
             $this->view->display('index.tpl.php');
         }
@@ -88,10 +96,10 @@ class IndexController extends Controller
 
     protected function getCurrentUser()
     {
-        if(!User::isGuest()) {
+        if (!User::isGuest()) {
             $user = new User();
             $user->getUserData($this->fb);
             return User::getUserBySocial($user);
-        }  
+        }
     }
 }
