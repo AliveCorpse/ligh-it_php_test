@@ -27,9 +27,10 @@ class IndexController extends Controller
     public function actionIndex()
     {
         if (User::isGuest()) {
-            $this->view->header  = 'Some Header for Guest';
-            $this->view->content = 'Content for Guest';
-            $this->view->footer  = 'Footer for Guest';
+            $this->view->header = 'Some Header for Guest';
+
+            $this->view->content = $this->renderMessages();
+            $this->view->footer   = 'Footer for Guest';
 
             $this->view->display('index.tpl.php');
         } else {
@@ -103,9 +104,18 @@ class IndexController extends Controller
 
     protected function renderMessages()
     {
+        $messages     = Message::findAll();
+        $users        = User::findAll();
+        foreach($messages as $message){
+            foreach ($users as $user) {
+                if($user->id == $message->user_id) {
+                    $message->user_name = $user->name;
+                }
+            }
+        }
         $this->view->current_user = $this->getCurrentUser();
-        $this->view->messages     = Message::findAll();
-        $this->view->users        = User::findAll();
+        $this->view->messages     = $messages;
+        // $this->view->users        = User::findAll();
 
         return $this->view->render('messages.tpl');
     }

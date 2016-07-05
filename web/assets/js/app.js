@@ -33,8 +33,7 @@ $(document).ready(function() {
         if (event.which == 13 || event.type == 'focusout') {
             if('' == message_text){
                 alert('Текст сообщение не может быть пустым');
-            }else{
-                
+            }else{                
                 var message_id = parent_div.attr('data-messageid');
                 var user_id = parent_div.attr('data-userid');
                 
@@ -68,4 +67,10 @@ $(document).ready(function() {
         }   
     });
 
+    // Comments
+    
+    // Add comment
+    $('div.comtent').delegate('button.addcomment', 'click', function(){
+        
+    });
 });
