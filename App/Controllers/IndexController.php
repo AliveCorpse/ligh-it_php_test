@@ -11,6 +11,7 @@ class IndexController extends Controller
 {
     protected $view;
     protected $fb;
+    protected static $_user;
 
     public function __construct()
     {
@@ -35,11 +36,11 @@ class IndexController extends Controller
 
         if (!User::isGuest()) {
             $user->getUserData($this->fb);
+            $_user = getUserBySocial($user);
+
             if (!$user->isRegistered()) {
                 $user->save();
             }
-        } else {
-
         }
     }
 
@@ -56,12 +57,11 @@ class IndexController extends Controller
         $message->user_id = User::getUserBySocial($user)->id;
         
         $message->created_at = time();
-        // var_dump($message);
         $message->save();
 
         $this->view->messages = Message::findAll();
+        $this->view->users = User::findAll();
         $this->view->display('messages.tpl');
-        // header('Location: index.php');
     }
 
     protected function sendHtml()
@@ -69,18 +69,28 @@ class IndexController extends Controller
         if (User::isGuest()) {
             $this->view->header  = 'Some Header for Guest';
             $this->view->content = 'Content for Guest';
-            $this->view->footer  = 'self::$_user';
+            $this->view->footer  = 'Footer for Guest';
 
             $this->view->display('index.tpl.php');
         } else {
             $this->view->header  = $this->view->render('_form_message.tpl');
 
             $this->view->messages = Message::findAll();
+            $this->view->users = User::findAll();
             $this->view->content = $this->view->render('messages.tpl');
 
-            $this->view->footer  = 'self::$_user;';
+            $this->view->footer  = $this->getCurrentUser();
 
             $this->view->display('index.tpl.php');
         }
+    }
+
+    protected function getCurrentUser()
+    {
+        if(!User::isGuest()) {
+            $user = new User();
+            $user->getUserData($this->fb);
+            return User::getUserBySocial($user);
+        }  
     }
 }

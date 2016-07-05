@@ -4,9 +4,13 @@ namespace App\Models;
 
 use App\Core\Model;
 use App\Core\Db;
-
+use App\Core\Traits\ArrayAccess;
+use App\Core\Traits\Iterator;
 class User extends Model
+    // implements \ArrayAccess, \Iterator
 {
+    // use ArrayAccess;
+    // use Iterator;
     const TABLE = 'users';
 
     public $id;
