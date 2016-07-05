@@ -64,7 +64,7 @@ class IndexController extends Controller
         $message->updated_at = time();
         $message->save();
 
-       $this->displayMessages();
+        echo $this->renderMessages();
     }
 
     public function actionDeletemessage()
@@ -75,7 +75,7 @@ class IndexController extends Controller
             $message->delete();
         }
 
-       $this->displayMessages();
+        echo $this->renderMessages();
     }
 
     protected function sendHtml()
@@ -87,15 +87,10 @@ class IndexController extends Controller
 
             $this->view->display('index.tpl.php');
         } else {
-            $this->view->current_user = $this->getCurrentUser();
+            $this->view->content = $this->renderMessages();
 
             $this->view->header = '<h1>Hello, ' . $this->view->current_user->name . '!</h1>';
             $this->view->header .= $this->view->render('_form_message.tpl');
-
-            $this->view->messages = Message::findAll();
-            $this->view->users    = User::findAll();
-            $this->view->content  = $this->view->render('messages.tpl');
-
             $this->view->footer = '';
 
             $this->view->display('index.tpl.php');
@@ -111,11 +106,12 @@ class IndexController extends Controller
         }
     }
 
-    protected function displayMessages()
+    protected function renderMessages()
     {
         $this->view->current_user = $this->getCurrentUser();
         $this->view->messages     = Message::findAll();
         $this->view->users        = User::findAll();
-        $this->view->display('messages.tpl');
+
+        return $this->view->render('messages.tpl');
     }
 }
