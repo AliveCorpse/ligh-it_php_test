@@ -62,21 +62,32 @@ class User extends Model
 
     public function isRegistered()
     {
-        $db     = Db::instance();
-        $result = $db->query(
-            'SELECT * FROM ' . static::TABLE
-            . ' WHERE social_id=:social_id
-                AND social_name=:social_name',
-            [
-                ':social_id'   => $this->social_id,
-                ':social_name' => $this->social_name,
-            ],
-            static::class
-        );
+        $result = self::getUserBySocial($this);
 
         if (!empty($result)) {
             return true;
         }
         return false;
     }
+
+    public static function getUserBySocial(User $user)
+    {
+        $db     = Db::instance();
+        $result = $db->query(
+            'SELECT * FROM ' . static::TABLE
+            . ' WHERE social_id=:social_id
+                AND social_name=:social_name',
+            [
+                ':social_id'   => $user->social_id,
+                ':social_name' => $user->social_name,
+            ],
+            static::class
+        );
+
+        if (!empty($result)) {
+            return $result[0];
+        }
+        return false;
+    }
+
 }
