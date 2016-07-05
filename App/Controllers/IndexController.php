@@ -26,7 +26,21 @@ class IndexController extends Controller
 
     public function actionIndex()
     {
-        $this->sendHtml();
+        if (User::isGuest()) {
+            $this->view->header  = 'Some Header for Guest';
+            $this->view->content = 'Content for Guest';
+            $this->view->footer  = 'Footer for Guest';
+
+            $this->view->display('index.tpl.php');
+        } else {
+            $this->view->content = $this->renderMessages();
+
+            $this->view->header = '<h1>Hello, ' . $this->view->current_user->name . '!</h1>';
+            $this->view->header .= $this->view->render('_form_message.tpl');
+            $this->view->footer = '';
+
+            $this->view->display('index.tpl.php');
+        }
     }
 
     public function actionLogin()
@@ -76,25 +90,6 @@ class IndexController extends Controller
         }
 
         echo $this->renderMessages();
-    }
-
-    protected function sendHtml()
-    {
-        if (User::isGuest()) {
-            $this->view->header  = 'Some Header for Guest';
-            $this->view->content = 'Content for Guest';
-            $this->view->footer  = 'Footer for Guest';
-
-            $this->view->display('index.tpl.php');
-        } else {
-            $this->view->content = $this->renderMessages();
-
-            $this->view->header = '<h1>Hello, ' . $this->view->current_user->name . '!</h1>';
-            $this->view->header .= $this->view->render('_form_message.tpl');
-            $this->view->footer = '';
-
-            $this->view->display('index.tpl.php');
-        }
     }
 
     protected function getCurrentUser()
