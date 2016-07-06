@@ -78,10 +78,28 @@ $(document).ready(function() {
         form_comment += '<input type="submit" value="Post Comment">';
         form_comment += '<button class="cancelcomment">Cancel</button>';
         form_comment += '</form>'
-        
+
         $(this).replaceWith(form_comment);
         parent_div.find('textarea.postcomment').focus();
     });
 
-    $()
+    //Submiting "New root comment" form
+    $('.form-comment').submit(function(event){
+        event.preventDefault();
+
+        var textarea = $(this).children('textarea.postcomment');
+
+        $.ajax({
+            method: "POST",
+            url: "index.php?action=addcomment",
+            data: {
+                text: textarea.val(),
+                parent_id: 0
+            },
+            success: function(result){
+                textarea.val('');
+                $('div.content').html(result);
+            }
+        });
+    });
 });

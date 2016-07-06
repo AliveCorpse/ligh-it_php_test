@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Core\View;
+use App\Models\Comment;
 use App\Models\Message;
 use App\Models\User;
 
@@ -27,10 +28,9 @@ class IndexController extends Controller
     public function actionIndex()
     {
         if (User::isGuest()) {
-            $this->view->header = 'Some Header for Guest';
-
+            $this->view->header  = 'Some Header for Guest';
             $this->view->content = $this->renderMessages();
-            $this->view->footer   = 'Footer for Guest';
+            $this->view->footer  = 'Footer for Guest';
 
             $this->view->display('index.tpl.php');
         } else {
@@ -93,6 +93,29 @@ class IndexController extends Controller
         echo $this->renderMessages();
     }
 
+    public function actionAddcomment()
+    {
+        if (empty($_POST['id'])) {
+            $message     = new Comment();
+            $message->id = null;
+
+            $user = new User();
+            $user->getUserData($this->fb);
+            $message->user_id = User::getUserBySocial($user)->id;
+
+            $message->created_at = time();
+        } else {
+            $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $message = Message::findById($id);
+        }
+        $message->text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_STRING);
+
+        $message->updated_at = time();
+        $message->save();
+
+        echo $this->renderMessages();
+    }
+
     protected function getCurrentUser()
     {
         if (!User::isGuest()) {
@@ -104,18 +127,35 @@ class IndexController extends Controller
 
     protected function renderMessages()
     {
-        $messages     = Message::findAll();
-        $users        = User::findAll();
-        foreach($messages as $message){
+        $messages = Message::findAll();
+        $users    = User::findAll();
+        $comments = Comment::findAll();
+
+        foreach ($comments as $comment) {
             foreach ($users as $user) {
-                if($user->id == $message->user_id) {
-                    $message->user_name = $user->name;
+                if ($user->id == $comment->user_id) {
+                    $comment->user_name = $user->name;
                 }
             }
         }
+
+        foreach ($messages as $message) {
+
+            foreach ($users as $user) {
+                if ($user->id == $message->user_id) {
+                    $message->user_name = $user->name;
+                }
+            }
+
+            foreach ($comments as $comment) {
+                if ($comment->message_id == $message->id) {
+                    $message->comments[] = $comment;
+                }
+            }
+
+        }
         $this->view->current_user = $this->getCurrentUser();
         $this->view->messages     = $messages;
-        // $this->view->users        = User::findAll();
 
         return $this->view->render('messages.tpl');
     }

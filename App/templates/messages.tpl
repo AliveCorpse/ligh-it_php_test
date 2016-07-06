@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/helpers/lib.php'?>
 <ol>
 
 <?php foreach($messages as $message): ?>
@@ -28,14 +29,15 @@
                 <?php if(isset($current_user->id)): ?>
                 <button class="addcomment">Add comment</button>
                 <?php endif; ?>
-                <ul>
-                    <li>comment 1</li>
-                    <li>comment 22</li>
-                </ul>
+                <div class="root">
+                    <?php if(!empty($message->comments)){
+                        drowTree($message->comments, $current_user);
+                    } ?>
+                </div>
             </div>
         </div> <!-- End div.message -->
     </li>
-    
+
 <hr>
 <?php endforeach; ?>
 </ol>

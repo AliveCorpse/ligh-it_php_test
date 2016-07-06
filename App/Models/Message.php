@@ -15,6 +15,8 @@ class Message extends Model
     public $created_at;
     public $updated_at;
 
+    // public $comments = [];
+
     public static function findAll()
     {
         $db = Db::instance();
