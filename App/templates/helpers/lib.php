@@ -24,7 +24,7 @@ function drowTree($items, $current_user, $parent_id = 0)
 
                 $result .= '<div class="comment-body"><p>' . $comment->text . '</p></div>';
 
-                $result .= '<div class="comment-footer"></div>';
+                $result .= '<div class="comment-footer"><button class="addanswer">Answer</button></div>';
             $result .= '</div>'; // End div.comment
 
             drowTree($items, $current_user, $comment->id);
