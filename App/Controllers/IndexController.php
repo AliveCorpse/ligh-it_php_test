@@ -101,9 +101,9 @@ class IndexController extends Controller
 
             $user = new User();
             $user->getUserData($this->fb);
-            $comment->user_id = User::getUserBySocial($user)->id;
+            $comment->user_id    = User::getUserBySocial($user)->id;
             $comment->message_id = filter_input(INPUT_POST, 'message_id', FILTER_SANITIZE_NUMBER_INT);
-            $comment->parent_id = filter_input(INPUT_POST, 'parent_id', FILTER_SANITIZE_NUMBER_INT);
+            $comment->parent_id  = filter_input(INPUT_POST, 'parent_id', FILTER_SANITIZE_NUMBER_INT);
 
             $comment->created_at = time();
         } else {
