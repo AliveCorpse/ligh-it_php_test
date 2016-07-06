@@ -84,22 +84,58 @@ $(document).ready(function() {
     });
 
     //Submiting "New root comment" form
-    $('.form-comment').submit(function(event){
+    $('div.content').delegate('.form-comment', 'submit', function(event){
         event.preventDefault();
 
         var textarea = $(this).children('textarea.postcomment');
+        var message_id = $(this).closest('div.message').attr('data-messageid');
 
         $.ajax({
             method: "POST",
             url: "index.php?action=addcomment",
             data: {
                 text: textarea.val(),
-                parent_id: 0
+                parent_id: 0,
+                message_id: message_id,
             },
             success: function(result){
                 textarea.val('');
                 $('div.content').html(result);
             }
         });
+    });
+
+    // открывает для редактирвоания комментарий
+    $('div.content').delegate('button.editcomment', 'click', function(){
+        var parent_div = $(this).closest('div.comment');
+        console.log(parent_div);
+        parent_div.children('div.comment-body').html('<textarea class="editcomment">' + parent_div.find('div.comment-body>p').text() + '</textarea>');
+        parent_div.find('div.comment-body>textarea.editcomment').focus();
+        parent_div.find('button.editcomment').replaceWith('<button class="savecomment">Save</button><button class="deletecomment">Delete</button>');
+    });
+
+    // Нажатие Enter или уход фокуса сохроняет измениеия 
+    $("div.content").on("keypress focusout", "textarea.editcomment", function(event) {
+        var comment_text = $(this).val();
+        var parent_div = $(this).closest('div.comment');
+
+        if (event.which == 13 || event.type == 'focusout') {
+            if('' == comment_text){
+                alert('Текст сообщение не может быть пустым');
+            }else{                
+                var comment_id = parent_div.attr('data-commentid');
+                var user_id = parent_div.attr('data-userid');
+                
+                $(this).replaceWith('<p>' + comment_text + '</p>');
+
+                $.post('index.php?action=addcomment', {
+                        id: comment_id,
+                        text: $(this).val()
+                    }, function(result){
+                        $('div.content').html(result);
+                    }
+                );
+            }
+        }
     });
 });

@@ -96,22 +96,24 @@ class IndexController extends Controller
     public function actionAddcomment()
     {
         if (empty($_POST['id'])) {
-            $message     = new Comment();
-            $message->id = null;
+            $comment     = new Comment();
+            $comment->id = null;
 
             $user = new User();
             $user->getUserData($this->fb);
-            $message->user_id = User::getUserBySocial($user)->id;
+            $comment->user_id = User::getUserBySocial($user)->id;
+            $comment->message_id = filter_input(INPUT_POST, 'message_id', FILTER_SANITIZE_NUMBER_INT);
+            $comment->parent_id = filter_input(INPUT_POST, 'parent_id', FILTER_SANITIZE_NUMBER_INT);
 
-            $message->created_at = time();
+            $comment->created_at = time();
         } else {
             $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-            $message = Message::findById($id);
+            $comment = Comment::findById($id);
         }
-        $message->text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_STRING);
+        $comment->text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_STRING);
 
-        $message->updated_at = time();
-        $message->save();
+        $comment->updated_at = time();
+        $comment->save();
 
         echo $this->renderMessages();
     }

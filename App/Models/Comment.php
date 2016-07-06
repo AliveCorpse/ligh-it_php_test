@@ -4,13 +4,9 @@ namespace App\Models;
 
 use App\Core\Db;
 use App\Core\Model;
-use App\Core\Traits\ArrayAccess;
-use App\Core\Traits\Iterator;
 
-class Comment extends Model implements \ArrayAccess, \Iterator
+class Comment extends Model
 {
-    use ArrayAccess;
-    use Iterator;
     const TABLE = 'comments';
 
     public $id;
@@ -31,5 +27,4 @@ class Comment extends Model implements \ArrayAccess, \Iterator
             static::class
         );
     }
-
 }
