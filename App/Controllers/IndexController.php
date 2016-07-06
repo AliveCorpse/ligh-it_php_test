@@ -118,6 +118,17 @@ class IndexController extends Controller
         echo $this->renderMessages();
     }
 
+    public function actionDeletecomment()
+    {
+        if (!empty($_POST['id'])) {
+            $id      = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $message = Comment::findById($id);
+            $message->delete();
+        }
+
+        echo $this->renderMessages();
+    }
+
     protected function getCurrentUser()
     {
         if (!User::isGuest()) {

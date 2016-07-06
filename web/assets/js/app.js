@@ -121,7 +121,7 @@ $(document).ready(function() {
 
         if (event.which == 13 || event.type == 'focusout') {
             if('' == comment_text){
-                alert('Текст сообщение не может быть пустым');
+                alert('Текст комментария не может быть пустым');
             }else{                
                 var comment_id = parent_div.attr('data-commentid');
                 var user_id = parent_div.attr('data-userid');
@@ -137,5 +137,22 @@ $(document).ready(function() {
                 );
             }
         }
+    });
+
+    $('div.content').delegate('button.deletecomment', 'click', function(){
+        var parent_div = $(this).closest('div.comment');
+        var comment_id = parent_div.attr('data-commentid');
+        
+        var conf = confirm('Вы уверены, что хотите удалить этот комментарий?');
+        if(conf){    
+            parent_div.remove();
+            $.post('index.php?action=deletecomment', {
+                id: comment_id
+                },
+                function(result){
+                     $('div.content').html(result);
+                }
+            );
+        }   
     });
 });
