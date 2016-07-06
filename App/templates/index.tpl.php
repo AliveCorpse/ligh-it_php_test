@@ -10,7 +10,6 @@
 <script src="./assets/js/messages.js"></script>
 <script src="./assets/js/comments.js"></script>
 
-<?=var_dump($_SERVER);?>
 <div class="container">
 
     <div class="facebook">
