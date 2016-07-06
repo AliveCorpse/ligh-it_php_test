@@ -4,8 +4,9 @@ function onLogin() {
         async: true,
         url: "index.php?action=login",
         data: {},
-        success: function() {
+        success: function(result) {
             location.reload();
+            // $('div.header').html(result);
         }
     });
 }

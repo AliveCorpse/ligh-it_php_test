@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Core\Model;
 use App\Core\Db;
+use App\Core\Model;
 
 class User extends Model
 {
@@ -89,5 +89,4 @@ class User extends Model
         }
         return false;
     }
-
 }

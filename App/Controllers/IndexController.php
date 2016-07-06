@@ -12,7 +12,6 @@ class IndexController extends Controller
 {
     protected $view;
     protected $fb;
-    protected static $_user;
 
     public function __construct()
     {
@@ -51,7 +50,6 @@ class IndexController extends Controller
 
         if (!User::isGuest()) {
             $user->getUserData($this->fb);
-            $_user = getUserBySocial($user);
 
             if (!$user->isRegistered()) {
                 $user->save();
