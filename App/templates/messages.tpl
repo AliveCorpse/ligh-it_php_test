@@ -31,7 +31,7 @@
                 <?php endif; ?>
                 <div class="root">
                     <?php if(!empty($message->comments)){
-                        drowTree($message->comments, $current_user);
+                        echo drowTree($message->comments, $current_user);
                     } ?>
                 </div>
             </div>

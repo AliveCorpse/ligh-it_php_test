@@ -89,7 +89,7 @@ $(document).ready(function() {
 
         var textarea = $(this).children('textarea.postcomment');
         var message_id = $(this).closest('div.message').attr('data-messageid');
-        var parent_id = $(this).closest('div.comment').attr('data-commentid');
+        var parent_id = 0;
 
         $.ajax({
             method: "POST",
@@ -161,13 +161,35 @@ $(document).ready(function() {
     $('div.content').delegate('button.addanswer', 'click', function(){
         var parent_div = $(this).closest('div.message-footer');
 
-        var form_comment = '<form action="index.php" method="post" class="form-comment">';
-        form_comment += '<textarea class="postcomment"></textarea>';
+        var form_comment = '<form action="index.php" method="post" class="form-answer">';
+        form_comment += '<textarea class="answercomment"></textarea>';
         form_comment += '<input type="submit" value="Ansver">';
-        form_comment += '<button class="cancelcomment">Cancel</button>';
+        form_comment += '<button class="cancelanswer">Cancel</button>';
         form_comment += '</form>'
 
         $(this).replaceWith(form_comment);
-        parent_div.find('textarea.postcomment').focus();
+        parent_div.find('textarea.answercomment').focus();
+    });
+
+    $('div.content').delegate('.form-answer', 'submit', function(event){
+        event.preventDefault();
+
+        var textarea = $(this).children('textarea.answercomment');
+        var message_id = $(this).closest('div.message').attr('data-messageid');
+        var parent_id = $(this).closest('div.comment').attr('data-commentid');
+
+        $.ajax({
+            method: "POST",
+            url: "index.php?action=addcomment",
+            data: {
+                text: textarea.val(),
+                parent_id: parent_id,
+                message_id: message_id,
+            },
+            success: function(result){
+                textarea.val('');
+                $('div.content').html(result);
+            }
+        });
     });
 });

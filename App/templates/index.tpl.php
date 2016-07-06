@@ -7,8 +7,10 @@
 <body>
 <script src="../vendor/components/jquery/jquery.min.js"></script>
 <script src="./assets/js/fb.js"></script>
-<script src="./assets/js/app.js"></script>
+<script src="./assets/js/messages.js"></script>
+<script src="./assets/js/comments.js"></script>
 
+<?=var_dump($_SERVER);?>
 <div class="container">
 
     <div class="facebook">
