@@ -45,7 +45,6 @@ class Db
                     )";
                 $db->exec($sql) or $db->lastErrorMsg();
 
-
             }
             // $this->dbh = new \PDO('mysql:host=localhost;dbname=lightit', 'root', '');
             
