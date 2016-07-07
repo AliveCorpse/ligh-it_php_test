@@ -4,8 +4,8 @@
          var parent_div = $(this).closest('div.message-footer');
          var form_comment = '<form action="index.php" method="post" class="form-comment">';
          form_comment += '<textarea class="postcomment"></textarea>';
-         form_comment += '<input type="submit" value="Post Comment">';
-         form_comment += '<button class="cancelcomment">Cancel</button>';
+         form_comment += ' <input class="btn btn-primary" type="submit" value="Comment">';
+         form_comment += ' <button class="cancelcomment btn btn-warning">Cancel</button>';
          form_comment += '</form>'
          $(this).replaceWith(form_comment);
          parent_div.find('textarea.postcomment').focus();
@@ -15,7 +15,7 @@
          event.preventDefault();
          var textarea = $(this).children('textarea.postcomment');
          var message_id = $(this).closest('div.message').attr('data-messageid');
-         var parent_id = $(this).closest('div.comment').attr('data-commentid');
+         var parent_id = 0; //$(this).closest('div.comment').attr('data-commentid');
          $.ajax({
              method: "POST",
              url: "index.php?action=addcomment",
@@ -58,6 +58,7 @@
              }
          }
      });
+     // Удаение комментария при нажатии на button.deletecomment
      $('div.content').delegate('button.deletecomment', 'click', function() {
          var parent_div = $(this).closest('div.comment');
          var comment_id = parent_div.attr('data-commentid');
@@ -71,17 +72,18 @@
              });
          }
      });
-     // Add ansver
+     // ответ на другой комментарий
      $('div.content').delegate('button.addanswer', 'click', function() {
          var parent_div = $(this).closest('div.message-footer');
          var form_comment = '<form action="index.php" method="post" class="form-answer">';
          form_comment += '<textarea class="answercomment"></textarea>';
-         form_comment += '<input type="submit" value="Ansver">';
-         form_comment += '<button class="cancelanswer">Cancel</button>';
+         form_comment += ' <input class="btn btn-primary" type="submit" value="Ansver">';
+         form_comment += ' <button class="cancelcomment btn btn-warning">Cancel</button>';
          form_comment += '</form>'
          $(this).replaceWith(form_comment);
          parent_div.find('textarea.answercomment').focus();
      });
+    // Сохроняет вложенный комментарий
      $('div.content').delegate('.form-answer', 'submit', function(event) {
          event.preventDefault();
          var textarea = $(this).children('textarea.answercomment');

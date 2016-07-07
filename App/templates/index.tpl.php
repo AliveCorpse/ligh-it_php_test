@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Facebook Login JavaScript Example</title>
+<title>Light-It test</title>
 <meta charset="UTF-8">
+<link href="../vendor/twbs/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+<link href="./assets/css/style.css" rel="stylesheet">
 </head>
 <body>
 <script src="../vendor/components/jquery/jquery.min.js"></script>
@@ -10,8 +12,10 @@
 <script src="./assets/js/messages.js"></script>
 <script src="./assets/js/comments.js"></script>
 
-<div class="container">
+<div class="container-fluid">
+<div class="wrapper col-md-8 col-md-offset-2">
 
+    <div class="row">
     <div class="facebook">
         <div id="fb-root"></div>
 
@@ -24,18 +28,27 @@
             onlogin="onLogin()"
         ></div>
     </div>
+    </div>
 
-    <div class="header">
+    <div class="row">
+        <div class="header">
         <?=$header;?>
+        </div>
     </div>
 
-    <div class="content">
+    <div class="row">
+        <div class="content">
         <?=$content;?>
+        </div>
     </div>
 
-    <div class="footer">
+    <div class="row">
+        <div class="footer">
         <?=$footer;?>
+        </div>
     </div>
-</div>
+
+</div> <!-- wrapper -->
+</div> <!-- container-flud -->
 </body>
 </html>

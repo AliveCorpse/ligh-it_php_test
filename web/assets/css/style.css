@@ -1,0 +1,14 @@
+textarea {
+    height: 100px;
+    width: 80%;
+    border: 1;
+    resize: none;
+}
+
+input.btn {
+    margin-top: -85px;
+}
+
+button.cancelcomment {
+    margin-top: -85px;
+}

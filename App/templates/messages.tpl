@@ -16,7 +16,7 @@
                 <?php endif; ?>
                 </span>
                 <?php if($message->user_id == $current_user->id): ?>
-                    <button class="editmessage">Edit</button>
+                    <button class="editmessage btn btn-xs">Edit</button>
                 <?php endif; ?>
             </div>
 
@@ -25,9 +25,9 @@
             </div>
 
             <div class="message-footer">
-                <h3>Add comment</h3>
+                <h3>Comments</h3>
                 <?php if(isset($current_user->id)): ?>
-                <button class="addcomment">Add comment</button>
+                <button class="addcomment btn btn-xs btn-success">Add comment</button>
                 <?php endif; ?>
                 <div class="root">
                     <?php if(!empty($message->comments)){
