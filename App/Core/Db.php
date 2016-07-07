@@ -6,12 +6,51 @@ class Db
 {
     use Traits\Singleton;
 
+    const DB_NAME = 'database.sqlite3';
+    const DB_PATH = __DIR__ . '/../../database/';
+
     private $dbh;
 
     protected function __construct()
     {
         try {
-            $this->dbh = new \PDO('mysql:host=localhost;dbname=lightit', 'root', '');
+            if(!is_file(self::DB_PATH . self::DB_NAME)) {
+                $db = new \SQLite3(self::DB_PATH . self::DB_NAME);
+
+                $sql = "CREATE TABLE users(
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name VARCHAR,
+                        social_id INTEGER,
+                        social_name VARCHAR
+                    )";
+                $db->exec($sql) or $db->lastErrorMsg();
+
+                $sql = "CREATE TABLE messages(
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        text TEXT,
+                        user_id INTEGER,
+                        created_at TIMESTAMP,
+                        updated_at TIMESTAMP
+                    )";
+                $db->exec($sql) or $db->lastErrorMsg();
+
+                $sql = "CREATE TABLE comments(
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        text TEXT,
+                        user_id INTEGER,
+                        message_id INTEGER,
+                        parent_id INTEGER,
+                        created_at TIMESTAMP,
+                        updated_at TIMESTAMP
+                    )";
+                $db->exec($sql) or $db->lastErrorMsg();
+
+
+            }
+            // $this->dbh = new \PDO('mysql:host=localhost;dbname=lightit', 'root', '');
+            
+            $this->dbh = new \PDO('sqlite:' . self::DB_PATH . self::DB_NAME);
+            
         } catch (\PDOException $e) {
             echo $e->getMessage();
         }
